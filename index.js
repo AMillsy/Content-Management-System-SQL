@@ -11,7 +11,7 @@ const db = new EmployeeDatabase({
   host: "localhost",
   user: "root",
   password: "",
-  databse: "employee_db",
+  database: "employee_db",
 });
 
 function init() {
@@ -25,13 +25,13 @@ function doMenuQuestions() {
   inquirer.prompt(menuQuestions).then(function (response) {
     switch (response.options) {
       case "View All Departments":
-        db.viewDepartments();
+        viewDepartments();
         break;
       case "View all roles":
-        db.viewRoles();
+        viewRoles();
         break;
       case "View all employees":
-        db.viewEmployees();
+        viewEmployees();
         break;
       case "Add a department":
         break;
@@ -42,5 +42,26 @@ function doMenuQuestions() {
       case "Update an Employee":
         break;
     }
+  });
+}
+
+function viewDepartments() {
+  db.viewDepartments().then((response) => {
+    console.table(response);
+    doMenuQuestions();
+  });
+}
+
+function viewRoles() {
+  db.viewRoles().then((response) => {
+    console.table(response);
+    doMenuQuestions();
+  });
+}
+
+function viewEmployees() {
+  db.viewEmployees().then((response) => {
+    console.table(response);
+    doMenuQuestions();
   });
 }
