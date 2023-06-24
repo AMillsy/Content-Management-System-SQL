@@ -46,6 +46,19 @@ class EmployeeDatabase extends Database {
       );
     });
   }
+
+  addDepartment(name) {
+    this.db.query(
+      `INSERT INTO department(name)
+        VALUE("${name}");`,
+      (err, results) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log(`Add department ${name}`);
+      }
+    );
+  }
 }
 
 module.exports = EmployeeDatabase;

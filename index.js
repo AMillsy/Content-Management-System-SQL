@@ -5,6 +5,7 @@ const {
   addDeparamentQuestions,
   addEmployeeQuestions,
   addRoleQuestions,
+  addDepartmentQuestions,
 } = require("./questions");
 
 const db = new EmployeeDatabase({
@@ -34,6 +35,7 @@ function doMenuQuestions() {
         viewEmployees();
         break;
       case "Add a department":
+        addDepartment();
         break;
       case "Add a role":
         break;
@@ -62,6 +64,13 @@ function viewRoles() {
 function viewEmployees() {
   db.viewEmployees().then((response) => {
     console.table(response);
+    doMenuQuestions();
+  });
+}
+
+function addDepartment() {
+  inquirer.prompt(addDepartmentQuestions).then((response) => {
+    db.addDepartment(response.department);
     doMenuQuestions();
   });
 }
