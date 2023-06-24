@@ -111,9 +111,29 @@ function addEmployee() {
     //Does the same but with the employees
     getAllManagers().then((response) => {
       employeeQuestions[3].choices.push(...response);
+      addEmployeeToDB(employeeQuestions);
+    });
+  });
+}
 
-      inquirer.prompt(employeeQuestions).then((response) => {
-        const { firstName, lastName, role, manager } = response;
+function addEmployeeToDB(employeeQuestions) {
+  inquirer.prompt(employeeQuestions).then((response) => {
+    const { firstName, lastName, role, manager } = response;
+
+    db.getManagerID(manager).then((response) => {
+      const managerId = response;
+
+      db.getRoleID(role).then((roleResponse) => {
+        console.log(roleResponse);
+        const roleId = roleResponse;
+        console.log(roleId);
+        console.log(managerId);
+        db.addEmployee({
+          firstName: firstName,
+          lastName: lastName,
+          managerId: managerId,
+          roleId: roleId,
+        });
       });
     });
   });

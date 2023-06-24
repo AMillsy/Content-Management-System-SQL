@@ -73,6 +73,11 @@ class EmployeeDatabase extends Database {
     );
   }
 
+  addEmployee(employeeOptions) {
+    const { firstName, lastName, managerId, roleId } = employeeOptions;
+    console.log(employeeOptions);
+  }
+
   getDepartmentID(departmentName) {
     return new Promise((resolve, reject) => {
       this.db.query(
@@ -84,6 +89,48 @@ class EmployeeDatabase extends Database {
             reject(err);
           }
           resolve(results);
+        }
+      );
+    });
+  }
+
+  getManagerID(managerName) {
+    return new Promise((resolve, reject) => {
+      const splitName = managerName.split(" ");
+      let query = "";
+      if (!splitName[1]) {
+        query = "last_name is NULL";
+      } else {
+        query = `last_name = "${splitName[1]}"`;
+      }
+
+      this.db.query(
+        `SELECT id FROM employee
+        WHERE first_name = "${splitName[0]}" and ${query};`,
+        (err, results) => {
+          if (err) {
+            reject(err);
+          }
+          const { id } = results;
+          console.log("This is the result", results);
+          resolve(id);
+        }
+      );
+    });
+  }
+
+  getRoleID(roleName) {
+    return new Promise((resolve, reject) => {
+      this.db.query(
+        `SELECT id from role
+        WHERE title = "${roleName}";`,
+        (err, results) => {
+          if (err) {
+            reject(err);
+          }
+          const { id } = results;
+          console.log("This is the role id is ", results);
+          resolve(id);
         }
       );
     });
