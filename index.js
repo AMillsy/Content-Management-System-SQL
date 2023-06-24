@@ -121,19 +121,18 @@ function addEmployeeToDB(employeeQuestions) {
     const { firstName, lastName, role, manager } = response;
 
     db.getManagerID(manager).then((response) => {
-      const managerId = response;
+      const { id: managerId } = response[0];
 
       db.getRoleID(role).then((roleResponse) => {
-        console.log(roleResponse);
-        const roleId = roleResponse;
-        console.log(roleId);
-        console.log(managerId);
+        const { id: roleId } = roleResponse[0];
         db.addEmployee({
           firstName: firstName,
           lastName: lastName,
           managerId: managerId,
           roleId: roleId,
         });
+
+        doMenuQuestions();
       });
     });
   });

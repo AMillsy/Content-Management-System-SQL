@@ -75,7 +75,17 @@ class EmployeeDatabase extends Database {
 
   addEmployee(employeeOptions) {
     const { firstName, lastName, managerId, roleId } = employeeOptions;
-    console.log(employeeOptions);
+
+    this.db.query(
+      `INSERT INTO employee(first_name,last_name,role_id,manager_id)
+    VALUE("${firstName}","${lastName}",${roleId},${managerId})`,
+      (err, results) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log(results);
+      }
+    );
   }
 
   getDepartmentID(departmentName) {
@@ -111,9 +121,7 @@ class EmployeeDatabase extends Database {
           if (err) {
             reject(err);
           }
-          const { id } = results;
-          console.log("This is the result", results);
-          resolve(id);
+          resolve(results);
         }
       );
     });
@@ -128,9 +136,7 @@ class EmployeeDatabase extends Database {
           if (err) {
             reject(err);
           }
-          const { id } = results;
-          console.log("This is the role id is ", results);
-          resolve(id);
+          resolve(results);
         }
       );
     });
