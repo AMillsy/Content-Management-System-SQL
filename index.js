@@ -41,6 +41,7 @@ function doMenuQuestions() {
         addRole();
         break;
       case "Add an Employee":
+        addEmployee();
         break;
       case "Update an Employee":
         break;
@@ -96,6 +97,51 @@ function addRole() {
 
         doMenuQuestions();
       });
+    });
+  });
+}
+
+function addEmployee() {
+  const employeeQuestions = addEmployeeQuestions;
+
+  //Gets all the roles from the db and puts them into inquirers questions
+  getAllRoles().then((response) => {
+    employeeQuestions[2].choices.push(...response);
+
+    //Does the same but with the employees
+    getAllManagers().then((response) => {
+      employeeQuestions[3].choices.push(...response);
+
+      inquirer.prompt(employeeQuestions).then((response) => {
+        const { firstName, lastName, role, manager } = response;
+      });
+    });
+  });
+}
+
+function getAllRoles() {
+  return new Promise((resolve, reject) => {
+    db.viewRoles().then((response) => {
+      const roles = [];
+      response.forEach(({ title }) => {
+        roles.push(title);
+      });
+      resolve(roles);
+    });
+  });
+}
+
+function getAllManagers() {
+  return new Promise((resolve, reject) => {
+    db.viewEmployees().then((response) => {
+      const managers = [];
+
+      response.forEach(({ first_name, last_name }) => {
+        const fullName = `${first_name} ${last_name}`;
+        managers.push(fullName);
+      });
+
+      resolve(managers);
     });
   });
 }

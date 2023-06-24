@@ -64,24 +64,24 @@ const addRoleQuestions = [
 const addEmployeeQuestions = [
   {
     type: "text",
-    name: "employeeFirstName",
+    name: "firstName",
     message: "Employee's First Name is... ",
   },
   {
     type: "text",
-    name: "employeeLastName",
+    name: "lastName",
     message: "Employee's Last Name is... ",
   },
   {
     type: "list",
-    name: "employeeRole",
+    name: "role",
     message: "Employee's Role is... ",
     //Dynamically show this list
     choices: [],
   },
   {
     type: "list",
-    name: "employeeManager",
+    name: "manager",
     message: "Employee's Maanger is... ",
     //Dynamically add to this list
     choices: ["None"],
