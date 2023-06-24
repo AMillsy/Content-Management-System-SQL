@@ -1,0 +1,24 @@
+{
+  "name": "content-management-system-sql",
+  "version": "1.0.0",
+  "description": "Design a content management system using NodeJS, Inquirer and SQL",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AMillsy/Content-Management-System-SQL.git"
+  },
+  "author": "Adam Mills",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AMillsy/Content-Management-System-SQL/issues"
+  },
+  "homepage": "https://github.com/AMillsy/Content-Management-System-SQL#readme",
+  "dependencies": {
+    "inquirer": "^8.2.4",
+    "mysql2": "^3.4.1"
+  }
+}
