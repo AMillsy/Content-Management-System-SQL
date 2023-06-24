@@ -78,12 +78,14 @@ class EmployeeDatabase extends Database {
 
     this.db.query(
       `INSERT INTO employee(first_name,last_name,role_id,manager_id)
-    VALUE("${firstName}","${lastName}",${roleId},${managerId})`,
+    VALUE("${firstName}","${lastName}",${roleId},${
+        isNaN(managerId) ? "NULL" : managerId
+      })`,
       (err, results) => {
         if (err) {
           console.log(err);
         }
-        console.log(results);
+        console.log("\n", "Added Employee", "\n");
       }
     );
   }
@@ -106,6 +108,7 @@ class EmployeeDatabase extends Database {
 
   getManagerID(managerName) {
     return new Promise((resolve, reject) => {
+      if (managerName === "None") resolve("None");
       const splitName = managerName.split(" ");
       let query = "";
       if (!splitName[1]) {
