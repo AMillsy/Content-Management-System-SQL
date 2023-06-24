@@ -22,3 +22,5 @@ class Database {
     this.db.disconnect();
   }
 }
+
+module.exports = Database;
