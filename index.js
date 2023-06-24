@@ -24,12 +24,14 @@ init();
 function doMenuQuestions() {
   inquirer.prompt(menuQuestions).then(function (response) {
     switch (response.options) {
-      case "View All Deparaments":
+      case "View All Departments":
+        db.viewDepartments();
         break;
       case "View all roles":
+        db.viewRoles();
         break;
-
       case "View all employees":
+        db.viewEmployees();
         break;
       case "Add a department":
         break;

@@ -4,7 +4,7 @@ const menuQuestions = [
     name: "options",
     message: "",
     choices: [
-      "View All Deparaments",
+      "View All Departments",
       "View all roles",
       "View all employees",
       "Add a department",
@@ -15,11 +15,11 @@ const menuQuestions = [
   },
 ];
 
-const addDeparamentQuestions = [
+const addDepartmentQuestions = [
   {
     type: "text",
-    name: "deparament",
-    message: "New Deparament name is... ",
+    name: "department",
+    message: "New Department name is... ",
   },
 ];
 
@@ -36,8 +36,8 @@ const addRoleQuestions = [
   },
   {
     type: "list",
-    name: "roleDeparament",
-    message: "Deparament for the role is... ",
+    name: "roleDepartment",
+    message: "Department for the role is... ",
     //Dynamically add the choices in
     choices: [],
   },
@@ -72,7 +72,7 @@ const addEmployeeQuestions = [
 
 module.exports = {
   menuQuestions,
-  addDeparamentQuestions,
+  addDepartmentQuestions,
   addEmployeeQuestions,
   addRoleQuestions,
 };
