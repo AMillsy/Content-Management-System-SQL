@@ -69,3 +69,10 @@ const addEmployeeQuestions = [
     choices: ["None"],
   },
 ];
+
+module.exports = {
+  menuQuestions,
+  addDeparamentQuestions,
+  addEmployeeQuestions,
+  addRoleQuestions,
+};
