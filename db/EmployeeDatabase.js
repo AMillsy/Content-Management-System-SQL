@@ -59,6 +59,35 @@ class EmployeeDatabase extends Database {
       }
     );
   }
+
+  addRole(roleOptions) {
+    const { role, salary, department } = roleOptions;
+    this.db.query(
+      `INSERT INTO role(title,salary,department_id)
+    VALUE("${role}",${salary},${department})`,
+      (err, results) => {
+        if (err) {
+          console.error(err);
+        } else console.log("Added role to database");
+      }
+    );
+  }
+
+  getDepartmentID(departmentName) {
+    return new Promise((resolve, reject) => {
+      this.db.query(
+        `
+        SELECT * FROM department
+        WHERE department.name = "${departmentName}";`,
+        (err, results) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(results);
+        }
+      );
+    });
+  }
 }
 
 module.exports = EmployeeDatabase;

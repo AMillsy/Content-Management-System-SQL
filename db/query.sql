@@ -1,6 +1,7 @@
 use employee_db;
 
-SELECT * FROM department;
+SELECT * FROM department
+WHERE department.name = "Sales";
 
 /*VIEWING ROLES*/
 

@@ -38,6 +38,7 @@ function doMenuQuestions() {
         addDepartment();
         break;
       case "Add a role":
+        addRole();
         break;
       case "Add an Employee":
         break;
@@ -72,5 +73,29 @@ function addDepartment() {
   inquirer.prompt(addDepartmentQuestions).then((response) => {
     db.addDepartment(response.department);
     doMenuQuestions();
+  });
+}
+
+function addRole() {
+  db.viewDepartments().then((response) => {
+    const roleQuestions = addRoleQuestions;
+
+    response.forEach(function ({ name }) {
+      roleQuestions[2].choices.push(name);
+    });
+
+    inquirer.prompt(roleQuestions).then((response) => {
+      const { roleName, roleSalary, roleDepartment } = response;
+
+      db.getDepartmentID(roleDepartment).then((response) => {
+        db.addRole({
+          role: roleName,
+          salary: roleSalary,
+          department: response[0].id,
+        });
+
+        doMenuQuestions();
+      });
+    });
   });
 }
