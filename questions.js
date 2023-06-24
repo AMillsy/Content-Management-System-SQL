@@ -1,3 +1,9 @@
+function validateAns(input, returnAns) {
+  if (input) {
+    return true;
+  }
+  return returnAns;
+}
 const menuQuestions = [
   {
     type: "list",
@@ -20,6 +26,9 @@ const addDepartmentQuestions = [
     type: "text",
     name: "department",
     message: "New Department name is... ",
+    validate: function (input) {
+      return validateAns(input, "Plese Enter in a department");
+    },
   },
 ];
 
@@ -28,11 +37,20 @@ const addRoleQuestions = [
     type: "text",
     name: "roleName",
     message: "New Role name is... ",
+    validate: function (input) {
+      return validateAns(input, "Plese Enter in a Role name");
+    },
   },
   {
     type: "text",
     name: "roleSalary",
     message: "Salary for this role is... ",
+    validate: function (input) {
+      if (!isNaN(input)) {
+        return true;
+      }
+      return "Please Enter in a number";
+    },
   },
   {
     type: "list",
