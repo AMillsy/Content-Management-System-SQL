@@ -1,14 +1,18 @@
 use employee_db;
 
+-- SELECT * FROM employee;
+
+-- SELECT id FROM employee
+-- WHERE first_name = "Hick" and last_name IS NULL ;
+
+-- SELECT id FROM employee
+-- WHERE first_name = "Adam" and last_name = "Mills";
+
+UPDATE employee
+SET role_id = 5
+WHERE id = 3;
+
 SELECT * FROM employee;
-
-SELECT id FROM employee
-WHERE first_name = "Hick" and last_name IS NULL ;
-
-SELECT id FROM employee
-WHERE first_name = "Adam" and last_name = "Mills";
-
-
 
 /*VIEWING ROLES*/
 

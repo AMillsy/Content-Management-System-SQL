@@ -2,10 +2,10 @@ const inquirer = require("inquirer");
 const EmployeeDatabase = require("./db/EmployeeDatabase");
 const {
   menuQuestions,
-  addDeparamentQuestions,
   addEmployeeQuestions,
   addRoleQuestions,
   addDepartmentQuestions,
+  updateEmployeeQuestions,
 } = require("./questions");
 
 const db = new EmployeeDatabase({
@@ -44,6 +44,7 @@ function doMenuQuestions() {
         addEmployee();
         break;
       case "Update an Employee":
+        updateEmployee();
         break;
     }
   });
@@ -101,6 +102,33 @@ function addRole() {
   });
 }
 
+function updateEmployee() {
+  const updateEmployeeQ = updateEmployeeQuestions;
+  getAllEmployees().then((response) => {
+    updateEmployeeQuestions[0].choices.push(...response);
+    getAllRoles().then((response) => {
+      updateEmployeeQ[1].choices.push(...response);
+
+      inquirer.prompt(updateEmployeeQ).then((response) => {
+        //Its called get mana
+        const { role, employee } = response;
+        db.getEmployeeID(employee).then((response) => {
+          const { id: employeeID } = response[0];
+
+          db.getRoleID(role).then((response) => {
+            const { id: roleID } = response[0];
+
+            db.updateEmployee(roleID, employeeID).then((response) => {
+              console.log(response);
+              doMenuQuestions();
+            });
+          });
+        });
+      });
+    });
+  });
+}
+
 function addEmployee() {
   const employeeQuestions = addEmployeeQuestions;
 
@@ -109,7 +137,7 @@ function addEmployee() {
     employeeQuestions[2].choices.push(...response);
 
     //Does the same but with the employees
-    getAllManagers().then((response) => {
+    getAllEmployees().then((response) => {
       employeeQuestions[3].choices.push(...response);
       addEmployeeToDB(employeeQuestions);
     });
@@ -119,25 +147,28 @@ function addEmployee() {
 function addEmployeeToDB(employeeQuestions) {
   inquirer.prompt(employeeQuestions).then((response) => {
     const { firstName, lastName, role, manager } = response;
-
-    db.getManagerID(manager).then((response) => {
+    //Gets managerID
+    db.getEmployeeID(manager).then((response) => {
       const { id: managerId } = response[0];
-
+      //Gets the roleID
       db.getRoleID(role).then((roleResponse) => {
         const { id: roleId } = roleResponse[0];
+        //Adds the Employee to the database
         db.addEmployee({
           firstName: firstName,
           lastName: lastName,
           managerId: managerId,
           roleId: roleId,
+        }).then((response) => {
+          console.log(response);
+          doMenuQuestions();
         });
-
-        doMenuQuestions();
       });
     });
   });
 }
 
+//Gets all the roles and formats them into a Array to use for the list
 function getAllRoles() {
   return new Promise((resolve, reject) => {
     db.viewRoles().then((response) => {
@@ -150,7 +181,8 @@ function getAllRoles() {
   });
 }
 
-function getAllManagers() {
+//Gets all the Employees and formations into an array to use for the list
+function getAllEmployees() {
   return new Promise((resolve, reject) => {
     db.viewEmployees().then((response) => {
       const managers = [];

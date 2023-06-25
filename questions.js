@@ -111,4 +111,5 @@ module.exports = {
   addDepartmentQuestions,
   addEmployeeQuestions,
   addRoleQuestions,
+  updateEmployeeQuestions,
 };

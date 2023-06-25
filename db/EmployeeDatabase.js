@@ -76,20 +76,36 @@ class EmployeeDatabase extends Database {
   addEmployee(employeeOptions) {
     const { firstName, lastName, managerId, roleId } = employeeOptions;
 
-    this.db.query(
-      `INSERT INTO employee(first_name,last_name,role_id,manager_id)
+    return new Promise((resolve, reject) => {
+      this.db.query(
+        `INSERT INTO employee(first_name,last_name,role_id,manager_id)
     VALUE("${firstName}","${lastName}",${roleId},${
-        isNaN(managerId) ? "NULL" : managerId
-      })`,
-      (err, results) => {
-        if (err) {
-          console.log(err);
+          isNaN(managerId) ? "NULL" : managerId
+        })`,
+        (err, results) => {
+          if (err) {
+            reject(err);
+          }
+          resolve("Added Employee to database");
         }
-        console.log("\n", "Added Employee", "\n");
-      }
-    );
+      );
+    });
   }
 
+  updateEmployee(roleID, employeeID) {
+    return new Promise((resolve, reject) => {
+      this.db.query(
+        `UPDATE employee
+    SET role_id = ${roleID}
+    WHERE id = ${employeeID};`,
+        function (err, results) {
+          if (err) {
+            reject(err);
+          } else resolve("Updated Employee");
+        }
+      );
+    });
+  }
   getDepartmentID(departmentName) {
     return new Promise((resolve, reject) => {
       this.db.query(
@@ -106,10 +122,10 @@ class EmployeeDatabase extends Database {
     });
   }
 
-  getManagerID(managerName) {
+  getEmployeeID(name) {
     return new Promise((resolve, reject) => {
-      if (managerName === "None") resolve("None");
-      const splitName = managerName.split(" ");
+      if (name === "None") resolve("None");
+      const splitName = name.split(" ");
       let query = "";
       if (!splitName[1]) {
         query = "last_name is NULL";
