@@ -8,11 +8,13 @@ use employee_db;
 -- SELECT id FROM employee
 -- WHERE first_name = "Adam" and last_name = "Mills";
 
-UPDATE employee
-SET role_id = 5
-WHERE id = 3;
+
 
 SELECT * FROM employee;
+
+SELECT * FROM department;
+
+SELECT * FROM role;
 
 /*VIEWING ROLES*/
 
