@@ -49,21 +49,21 @@ function doMenuQuestions() {
     }
   });
 }
-
+//Views all the departments in the database
 function viewDepartments() {
   db.viewDepartments().then((response) => {
     console.table(response);
     doMenuQuestions();
   });
 }
-
+//Views all the roles in the database
 function viewRoles() {
   db.viewRoles().then((response) => {
     console.table(response);
     doMenuQuestions();
   });
 }
-
+//Views all the employees in the database
 function viewEmployees() {
   db.viewEmployees().then((response) => {
     console.table(response);
@@ -71,13 +71,14 @@ function viewEmployees() {
   });
 }
 
+//Adds a new department
 function addDepartment() {
   inquirer.prompt(addDepartmentQuestions).then((response) => {
     db.addDepartment(response.department);
     doMenuQuestions();
   });
 }
-
+//Add a new role to the list of roles
 function addRole() {
   db.viewDepartments().then((response) => {
     const roleQuestions = addRoleQuestions;
@@ -102,6 +103,7 @@ function addRole() {
   });
 }
 
+//Updates the employees roles
 function updateEmployee() {
   const updateEmployeeQ = updateEmployeeQuestions;
   getAllEmployees().then((response) => {
