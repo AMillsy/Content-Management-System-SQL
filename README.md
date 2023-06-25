@@ -12,7 +12,7 @@ Design a content management system using NodeJS, Inquirer and SQL
 
 ## Walkthough
 
-[Walkthrough Video](youtube.com)
+[Walkthrough Video](https://www.youtube.com/watch?v=XFYcvWCFg6U)
 
 ## User Story
 
