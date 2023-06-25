@@ -56,7 +56,7 @@ give a structure to the code and know that the code is going to run in the direc
 
 ## Installation
 
-Clone the project and then to use the test data you need and to setup the database (MYSQL)[https://www.mysql.com/]
+Clone the project and then to use the test data you need and to setup the database [MYSQL](https://www.mysql.com/)
 
 After that in the terminal do in the project:
 
