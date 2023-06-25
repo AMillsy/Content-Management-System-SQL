@@ -66,6 +66,9 @@ const addEmployeeQuestions = [
     type: "text",
     name: "firstName",
     message: "Employee's First Name is... ",
+    validate: function (input) {
+      return validateAns(input, "Please put in a name");
+    },
   },
   {
     type: "text",
@@ -88,6 +91,21 @@ const addEmployeeQuestions = [
   },
 ];
 
+const updateEmployeeQuestions = [
+  {
+    type: "list",
+    name: "employee",
+    message: "Which Employee are you updating?",
+    //Dynamic list with all the employees
+    choices: [],
+  },
+  {
+    type: "list",
+    name: "role",
+    message: "Role the Employee is changing to is... ",
+    choices: [],
+  },
+];
 module.exports = {
   menuQuestions,
   addDepartmentQuestions,
