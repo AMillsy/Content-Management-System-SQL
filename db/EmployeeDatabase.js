@@ -48,29 +48,38 @@ class EmployeeDatabase extends Database {
   }
 
   addDepartment(name) {
-    this.db.query(
-      `INSERT INTO department(name)
+    return new Promise((resolve, reject) => {
+      this.db.query(
+        `INSERT INTO department(name)
         VALUE("${name}");`,
-      (err, results) => {
-        if (err) {
-          console.log(err);
+        (err, results) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(`
+          Added department ${name}
+          `);
         }
-        console.log(`Add department ${name}`);
-      }
-    );
+      );
+    });
   }
 
   addRole(roleOptions) {
     const { role, salary, department } = roleOptions;
-    this.db.query(
-      `INSERT INTO role(title,salary,department_id)
+    return new Promise((resolve, reject) => {
+      this.db.query(
+        `INSERT INTO role(title,salary,department_id)
     VALUE("${role}",${salary},${department})`,
-      (err, results) => {
-        if (err) {
-          console.error(err);
-        } else console.log("Added role to database");
-      }
-    );
+        (err, results) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(`
+          Added ${role} to database
+          `);
+        }
+      );
+    });
   }
 
   addEmployee(employeeOptions) {
@@ -86,7 +95,9 @@ class EmployeeDatabase extends Database {
           if (err) {
             reject(err);
           }
-          resolve("Added Employee to database");
+          resolve(`
+          Added Employee to database
+          `);
         }
       );
     });
@@ -101,7 +112,10 @@ class EmployeeDatabase extends Database {
         function (err, results) {
           if (err) {
             reject(err);
-          } else resolve("Updated Employee");
+          } else
+            resolve(`
+          Updated Employee
+          `);
         }
       );
     });

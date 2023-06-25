@@ -74,8 +74,10 @@ function viewEmployees() {
 //Adds a new department
 function addDepartment() {
   inquirer.prompt(addDepartmentQuestions).then((response) => {
-    db.addDepartment(response.department);
-    doMenuQuestions();
+    db.addDepartment(response.department).then((response) => {
+      console.log(response);
+      doMenuQuestions();
+    });
   });
 }
 //Add a new role to the list of roles
@@ -95,9 +97,10 @@ function addRole() {
           role: roleName,
           salary: roleSalary,
           department: response[0].id,
+        }).then((response) => {
+          console.log(response);
+          doMenuQuestions();
         });
-
-        doMenuQuestions();
       });
     });
   });
