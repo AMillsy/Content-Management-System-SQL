@@ -6,6 +6,8 @@ const {
   addRoleQuestions,
   addDepartmentQuestions,
   updateEmployeeQuestions,
+  updateEmployeeRoleQuestion,
+  updateEmployeeManagerQuestion,
 } = require("./questions");
 
 const db = new EmployeeDatabase({
@@ -111,23 +113,59 @@ function updateEmployee() {
   const updateEmployeeQ = updateEmployeeQuestions;
   getAllEmployees().then((response) => {
     updateEmployeeQuestions[0].choices.push(...response);
-    getAllRoles().then((response) => {
-      updateEmployeeQ[1].choices.push(...response);
 
-      inquirer.prompt(updateEmployeeQ).then((response) => {
-        //Its called get mana
-        const { role, employee } = response;
-        db.getEmployeeID(employee).then((response) => {
-          const { id: employeeID } = response[0];
+    inquirer.prompt(updateEmployeeQ).then((response) => {
+      //Its called get employees id
+      const { employee, options } = response;
+      db.getEmployeeID(employee).then((response) => {
+        const { id: employeeID } = response[0];
 
-          db.getRoleID(role).then((response) => {
-            const { id: roleID } = response[0];
+        switch (options) {
+          case "Updating Role":
+            updateEmployeeRole(employeeID);
+            break;
+          case "Updating Manager":
+            updateEmployeeManager(employeeID, employee);
+            break;
+        }
+      });
+    });
+  });
+}
 
-            db.updateEmployee(roleID, employeeID).then((response) => {
-              console.log(response);
-              doMenuQuestions();
-            });
-          });
+function updateEmployeeRole(employeeID) {
+  const updateEmployeeRoleQ = updateEmployeeRoleQuestion;
+
+  getAllRoles().then((response) => {
+    updateEmployeeRoleQ[0].choices.push(...response);
+
+    inquirer.prompt(updateEmployeeRoleQ).then((response) => {
+      const { role } = response;
+      db.getRoleID(role).then((response) => {
+        const { id: roleID } = response[0];
+
+        db.updateEmployeeRole(roleID, employeeID).then((response) => {
+          console.log(response);
+        });
+        doMenuQuestions();
+      });
+    });
+  });
+}
+
+function updateEmployeeManager(employeeID, employeeName) {
+  const updateEmployeeManagerQ = updateEmployeeManagerQuestion;
+  console.log(employeeName);
+  getAllEmployees(employeeName).then((response) => {
+    updateEmployeeManagerQ[0].choices.push(...response);
+
+    inquirer.prompt(updateEmployeeManagerQ).then((response) => {
+      db.getEmployeeID(response.manager).then((response) => {
+        const { id: managerID } = response[0];
+
+        db.updateEmployeeManager(employeeID, managerID).then((response) => {
+          console.log(response);
+          doMenuQuestions();
         });
       });
     });
@@ -187,14 +225,16 @@ function getAllRoles() {
 }
 
 //Gets all the Employees and formations into an array to use for the list
-function getAllEmployees() {
+function getAllEmployees(selfName = "") {
   return new Promise((resolve, reject) => {
     db.viewEmployees().then((response) => {
       const managers = [];
 
       response.forEach(({ first_name, last_name }) => {
         const fullName = `${first_name} ${last_name}`;
-        managers.push(fullName);
+        //Don't include your own name in
+        if (!(fullName.trimEnd() === selfName.trimEnd()))
+          managers.push(fullName);
       });
 
       resolve(managers);

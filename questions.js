@@ -101,8 +101,26 @@ const updateEmployeeQuestions = [
   },
   {
     type: "list",
+    name: "options",
+    message: "What are you updating on the employee? ",
+    choices: ["Updating Role", "Updating Manager"],
+  },
+];
+
+const updateEmployeeRoleQuestion = [
+  {
+    type: "list",
     name: "role",
-    message: "Role the Employee is changing to is... ",
+    message: "The new role is... ",
+    choices: [],
+  },
+];
+
+const updateEmployeeManagerQuestion = [
+  {
+    type: "list",
+    name: "manager",
+    message: "There new manager is... ",
     choices: [],
   },
 ];
@@ -112,4 +130,6 @@ module.exports = {
   addEmployeeQuestions,
   addRoleQuestions,
   updateEmployeeQuestions,
+  updateEmployeeRoleQuestion,
+  updateEmployeeManagerQuestion,
 };

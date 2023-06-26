@@ -105,7 +105,7 @@ class EmployeeDatabase extends Database {
     });
   }
 
-  updateEmployee(roleID, employeeID) {
+  updateEmployeeRole(roleID, employeeID) {
     return new Promise((resolve, reject) => {
       this.db.query(
         `UPDATE employee
@@ -118,6 +118,24 @@ class EmployeeDatabase extends Database {
             resolve(`
           Updated Employee
           `);
+        }
+      );
+    });
+  }
+
+  updateEmployeeManager(employeeID, managerID) {
+    return new Promise((resolve, reject) => {
+      this.db.query(
+        `UPDATE employee
+      SET manager_id = ${managerID}
+      WHERE id = ${employeeID};`,
+        function (err, results) {
+          if (err) {
+            reject(err);
+          }
+          resolve(`
+        Updated Manager
+        `);
         }
       );
     });
